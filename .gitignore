@@ -68,3 +68,6 @@ release
 # Include makefiles
 !Makefile
 *~
+
+# VSCode
+.vscode
