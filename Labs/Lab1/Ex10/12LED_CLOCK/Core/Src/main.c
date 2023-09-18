@@ -210,14 +210,11 @@ int main(void)
 			  hour++;
 			  minus = 0;
 		  }
+		  if(hour == 24){
+			  hour = 0;
+		  }
 	  }
-
-	  if(hour == 24){
-		  hour = 0;
-	  }
-
-	  HAL_Delay(1000);
-
+	  HAL_Delay(10);
   }
   /* USER CODE END 3 */
 }
