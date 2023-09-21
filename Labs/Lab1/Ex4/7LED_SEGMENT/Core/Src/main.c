@@ -66,13 +66,13 @@ void display7SEG(int num){
 										0b01111111, // 8
 										0b01101111  // 9
 	};
-	HAL_GPIO_WritePin(SEG_a_GPIO_Port, SEG_a_Pin, (sevenSegment[num] & 0x01) ? RESET : SET);
-	HAL_GPIO_WritePin(SEG_b_GPIO_Port, SEG_b_Pin, (sevenSegment[num] & 0x02) ? RESET : SET);
-	HAL_GPIO_WritePin(SEG_c_GPIO_Port, SEG_c_Pin, (sevenSegment[num] & 0x04) ? RESET : SET);
-	HAL_GPIO_WritePin(SEG_d_GPIO_Port, SEG_d_Pin, (sevenSegment[num] & 0x08) ? RESET : SET);
-	HAL_GPIO_WritePin(SEG_e_GPIO_Port, SEG_e_Pin, (sevenSegment[num] & 0x10) ? RESET : SET);
-	HAL_GPIO_WritePin(SEG_f_GPIO_Port, SEG_f_Pin, (sevenSegment[num] & 0x20) ? RESET : SET);
-	HAL_GPIO_WritePin(SEG_g_GPIO_Port, SEG_g_Pin, (sevenSegment[num] & 0x40) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_a_GPIO_Port, SEG_a_Pin, ((sevenSegment[num]) & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_b_GPIO_Port, SEG_b_Pin, ((sevenSegment[num] >> 1) & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_c_GPIO_Port, SEG_c_Pin, ((sevenSegment[num] >> 2) & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_d_GPIO_Port, SEG_d_Pin, ((sevenSegment[num] >> 3) & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_e_GPIO_Port, SEG_e_Pin, ((sevenSegment[num] >> 4) & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_f_GPIO_Port, SEG_f_Pin, ((sevenSegment[num] >> 5) & 0x01) ? RESET : SET);
+	HAL_GPIO_WritePin(SEG_g_GPIO_Port, SEG_g_Pin, ((sevenSegment[num] >> 6) & 0x01) ? RESET : SET);
 }
 /* USER CODE END 0 */
 
