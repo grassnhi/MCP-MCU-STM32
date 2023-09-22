@@ -6,7 +6,8 @@ Welcome to the Microprocessors – Microcontrollers Course Repository! This repo
 
 1. **Labs:** 
 
-This section houses a total of 9 labs, each comprising several exercises. These hands-on lab exercises are designed to provide practical experience and reinforce the theoretical concepts covered in the course.
+- Folder Lab0: STM32 tutorial exercises for labs.
+- Labs: Each branch contains a exercise of a specific lab.
 
 2. **Lessons:** 
 
