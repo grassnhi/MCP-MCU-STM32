@@ -160,7 +160,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   int hour = 15, minute = 8, second = 50;
   int counter = 0;
-  setTimer0(1000);
+  setTimer0(10);
   updateClockBuffer(hour, minute);
   while (1)
   {
