@@ -125,7 +125,14 @@ void updateClockBuffer(int hour, int minute){
 
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0x18, 0x3C, 0x66, 0x66, 0x7E, 0x7E, 0x66, 0x66};
+uint8_t matrix_buffer[8] = {0b11100111,
+							0b11000011,
+							0b10011001,
+							0b10011001,
+							0b10000001,
+							0b10000001,
+							0b10011001,
+							0b10011001};
 void displayMatrix(int num) {
 	int matrix = ~matrix_buffer[num];
 	HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, matrix & 0x01 ? RESET : SET);
@@ -256,14 +263,14 @@ int main(void)
 	  if(timer_flag[2] == 1){
 		  setTimer2(250);
 		  update7SEG(index_led++);
-		  if(index_led == 4){
+		  if(index_led == MAX_LED){
 			  index_led = 0;
 		  }
 	  }
 	  if(timer_flag[3] == 1) {
 		  setTimer3(250);
 		  updateLEDMatrix(index_led_matrix++);
-		  if(index_led_matrix == 8){
+		  if(index_led_matrix == MAX_LED_MATRIX){
 			  index_led_matrix = 0;
 		  }
 	  }
