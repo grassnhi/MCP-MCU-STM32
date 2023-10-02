@@ -133,7 +133,7 @@ uint8_t matrix_buffer[8] = {0b11100111,
 							0b10000001,
 							0b10011001,
 							0b10011001};
-void displayMatrix(int num) {
+void displayMatrix(int num, int index) {
 	int matrix = ~matrix_buffer[num];
 	HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, matrix & 0x01 ? RESET : SET);
 	HAL_GPIO_WritePin(ENM1_GPIO_Port, ENM1_Pin, (matrix>>1) & 0x01 ? RESET : SET);
