@@ -168,9 +168,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  if(timer0_flag == 1){
-		update7SEG(index_led++);
 		setTimer0(250);
-		if(index_led == 4){
+
+		if(index_led == MAX_LED){
 			index_led = 0;
 			second++;
 			if(second >= 60){
@@ -186,10 +186,12 @@ int main(void)
 			}
 			updateClockBuffer(hour, minute);
 		}
+		update7SEG(index_led++);
 	  }
 	  if(timer1_flag == 1){
-		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 		  setTimer1(500);
+		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+
 	  }
 
   }
