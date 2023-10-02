@@ -491,21 +491,21 @@ int main(void)
  800042c:	681b      	ldr	r3, [r3, #0]
  800042e:	2b01      	cmp	r3, #1
  8000430:	d1fb      	bne.n	800042a <main+0x3a>
-		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
- 8000432:	2110      	movs	r1, #16
- 8000434:	4822      	ldr	r0, [pc, #136]	; (80004c0 <main+0xd0>)
- 8000436:	f000 fd1d 	bl	8000e74 <HAL_GPIO_TogglePin>
-		update7SEG(index_led++);
- 800043a:	4b22      	ldr	r3, [pc, #136]	; (80004c4 <main+0xd4>)
- 800043c:	681b      	ldr	r3, [r3, #0]
- 800043e:	1c5a      	adds	r2, r3, #1
- 8000440:	4920      	ldr	r1, [pc, #128]	; (80004c4 <main+0xd4>)
- 8000442:	600a      	str	r2, [r1, #0]
- 8000444:	4618      	mov	r0, r3
- 8000446:	f7ff ff17 	bl	8000278 <update7SEG>
 		setTimer0(250);
- 800044a:	20fa      	movs	r0, #250	; 0xfa
- 800044c:	f000 f928 	bl	80006a0 <setTimer0>
+ 8000432:	20fa      	movs	r0, #250	; 0xfa
+ 8000434:	f000 f934 	bl	80006a0 <setTimer0>
+		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+ 8000438:	2110      	movs	r1, #16
+ 800043a:	4821      	ldr	r0, [pc, #132]	; (80004c0 <main+0xd0>)
+ 800043c:	f000 fd1a 	bl	8000e74 <HAL_GPIO_TogglePin>
+		update7SEG(index_led++);
+ 8000440:	4b20      	ldr	r3, [pc, #128]	; (80004c4 <main+0xd4>)
+ 8000442:	681b      	ldr	r3, [r3, #0]
+ 8000444:	1c5a      	adds	r2, r3, #1
+ 8000446:	491f      	ldr	r1, [pc, #124]	; (80004c4 <main+0xd4>)
+ 8000448:	600a      	str	r2, [r1, #0]
+ 800044a:	4618      	mov	r0, r3
+ 800044c:	f7ff ff14 	bl	8000278 <update7SEG>
 		counter++;
  8000450:	683b      	ldr	r3, [r7, #0]
  8000452:	3301      	adds	r3, #1

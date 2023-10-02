@@ -168,9 +168,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  if(timer0_flag == 1){
+		setTimer0(250);
 		HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 		update7SEG(index_led++);
-		setTimer0(250);
 		counter++;
 
 		if(counter == 2){
