@@ -64,8 +64,8 @@ all: main-build
 main-build: 4_7SEG_LEDs.elf secondary-outputs
 
 # Tool invocations
-4_7SEG_LEDs.elf: $(OBJS) $(USER_OBJS) E:\Coding\MPU-MCU-STM32\Labs\Lab2\Ex2\4_7SEG_LEDs\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "4_7SEG_LEDs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Coding\MPU-MCU-STM32\Labs\Lab2\Ex2\4_7SEG_LEDs\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="4_7SEG_LEDs.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+4_7SEG_LEDs.elf: $(OBJS) $(USER_OBJS) E:\Coding\MPU-MCU-STM32\4_7SEG_LEDs\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "4_7SEG_LEDs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Coding\MPU-MCU-STM32\4_7SEG_LEDs\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="4_7SEG_LEDs.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
