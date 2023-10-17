@@ -64,8 +64,8 @@ all: main-build
 main-build: LED_Blinky.elf secondary-outputs
 
 # Tool invocations
-LED_Blinky.elf: $(OBJS) $(USER_OBJS) E:\Coding\MPU-MCU-STM32\Labs\Lab0\LED_Blinky\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "LED_Blinky.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Coding\MPU-MCU-STM32\Labs\Lab0\LED_Blinky\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LED_Blinky.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+LED_Blinky.elf: $(OBJS) $(USER_OBJS) E:\Coding\MPU-MCU-STM32\Lab0\LED_Blinky\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "LED_Blinky.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Coding\MPU-MCU-STM32\Lab0\LED_Blinky\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LED_Blinky.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
