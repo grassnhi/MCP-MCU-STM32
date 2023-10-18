@@ -22,8 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "blinky_led.h"
-#include "software_timer.h"
+//#include "blinky_led.h"
+//#include "software_timer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,13 +57,13 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void led_on(){
-	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, RESET);
-}
-
-void led_off(){
-	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, SET);
-}
+//void led_on(){
+//	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, RESET);
+//}
+//
+//void led_off(){
+//	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, SET);
+//}
 /* USER CODE END 0 */
 
 /**
@@ -101,13 +101,14 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  led_status = INIT;
+//  led_status = INIT;
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  blinky_led_run();
+//	  blinky_led_run();
+
   }
   /* USER CODE END 3 */
 }
@@ -166,9 +167,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7999;
+  htim2.Init.Prescaler = 9999;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 9;
+  htim2.Init.Period = 79;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -217,9 +218,14 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+int counter = 5;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
+	counter--;
+	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	if(counter <= 0){
+		counter = 5;
+		HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+	}
 }
 /* USER CODE END 4 */
 
