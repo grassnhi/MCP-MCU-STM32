@@ -22,7 +22,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "global.h"
+#include "fsm_mode.h"
+#include "input_reading.h"
+#include "software_timer.h"
+#include "input_processing.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,7 +93,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,6 +103,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    fsm_mode();
   }
   /* USER CODE END 3 */
 }
@@ -178,7 +183,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM2_Init 2 */
-
+  TIME_CYCLE = 1/(8e6/(htim2.Init.Prescaler + 1)/(htim2.Init.Period + 1)) * 1000;
   /* USER CODE END TIM2_Init 2 */
 
 }
@@ -202,8 +207,10 @@ static void MX_GPIO_Init(void)
                           |EN2_Pin|EN3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, SEGa_Pin|SEGb_Pin|SEGc_Pin|SEGd_Pin
-                          |SEGe_Pin|SEGf_Pin|SEGg_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SEG1a_Pin|SEG1b_Pin|SEG1c_Pin|SEG2d_Pin
+                          |SEG2e_Pin|SEG2f_Pin|SEG2g_Pin|SEG1d_Pin
+                          |SEG1e_Pin|SEG1f_Pin|SEG1g_Pin|SEG2a_Pin
+                          |SEG2b_Pin|SEG2c_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : MODE_Pin ADJ_Pin SET_Pin */
   GPIO_InitStruct.Pin = MODE_Pin|ADJ_Pin|SET_Pin;
@@ -222,10 +229,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SEGa_Pin SEGb_Pin SEGc_Pin SEGd_Pin
-                           SEGe_Pin SEGf_Pin SEGg_Pin */
-  GPIO_InitStruct.Pin = SEGa_Pin|SEGb_Pin|SEGc_Pin|SEGd_Pin
-                          |SEGe_Pin|SEGf_Pin|SEGg_Pin;
+  /*Configure GPIO pins : SEG1a_Pin SEG1b_Pin SEG1c_Pin SEG2d_Pin
+                           SEG2e_Pin SEG2f_Pin SEG2g_Pin SEG1d_Pin
+                           SEG1e_Pin SEG1f_Pin SEG1g_Pin SEG2a_Pin
+                           SEG2b_Pin SEG2c_Pin */
+  GPIO_InitStruct.Pin = SEG1a_Pin|SEG1b_Pin|SEG1c_Pin|SEG2d_Pin
+                          |SEG2e_Pin|SEG2f_Pin|SEG2g_Pin|SEG1d_Pin
+                          |SEG1e_Pin|SEG1f_Pin|SEG1g_Pin|SEG2a_Pin
+                          |SEG2b_Pin|SEG2c_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -234,7 +245,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim)
+{
+	timerRun();
+	button_reading();
+}
 /* USER CODE END 4 */
 
 /**

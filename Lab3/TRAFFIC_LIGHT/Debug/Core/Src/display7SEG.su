@@ -1,0 +1,7 @@
+display7SEG.c:10:6:display7SEG1	32	static
+display7SEG.c:31:6:display7SEG2	32	static
+display7SEG.c:54:6:update7SEG	16	static
+display7SEG.c:84:6:updateBufferMode1	4	static
+display7SEG.c:120:6:updateBufferMode2	4	static
+display7SEG.c:128:6:updateBufferMode3	4	static
+display7SEG.c:136:6:updateBufferMode4	4	static
