@@ -18,12 +18,13 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <fsm_automatic.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "global.h"
-#include "fsm_mode.h"
+#include "fsm_manual.h"
 #include "input_reading.h"
 #include "software_timer.h"
 #include "input_processing.h"
@@ -103,7 +104,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    fsm_mode();
+	fsm_automatic_run();
+	fsm_manual_run();
   }
   /* USER CODE END 3 */
 }

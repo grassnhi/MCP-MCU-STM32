@@ -7,7 +7,8 @@
 C_SRCS += \
 ../Core/Src/display7SEG.c \
 ../Core/Src/displayLED.c \
-../Core/Src/fsm_mode.c \
+../Core/Src/fsm_automatic.c \
+../Core/Src/fsm_manual.c \
 ../Core/Src/global.c \
 ../Core/Src/input_processing.c \
 ../Core/Src/input_reading.c \
@@ -22,7 +23,8 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/display7SEG.o \
 ./Core/Src/displayLED.o \
-./Core/Src/fsm_mode.o \
+./Core/Src/fsm_automatic.o \
+./Core/Src/fsm_manual.o \
 ./Core/Src/global.o \
 ./Core/Src/input_processing.o \
 ./Core/Src/input_reading.o \
@@ -37,7 +39,8 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/display7SEG.d \
 ./Core/Src/displayLED.d \
-./Core/Src/fsm_mode.d \
+./Core/Src/fsm_automatic.d \
+./Core/Src/fsm_manual.d \
 ./Core/Src/global.d \
 ./Core/Src/input_processing.d \
 ./Core/Src/input_reading.d \
