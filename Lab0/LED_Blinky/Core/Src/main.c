@@ -22,10 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "software_timer.h"
-#include "button.h"
-#include "fsm_automatic.h"
-#include "fsm_manual.h"
+#include "scheduler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,7 +56,9 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void led1test(){
+	HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+}
 /* USER CODE END 0 */
 
 /**
@@ -98,12 +97,16 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 //  setTimer1(100);
-  status = INIT;
+//  status = INIT;
+
+  SCH_Add_Task(led1test, 100, 200);
 
   while (1)
   {
-	  fsm_automatic_run();
-	  fsm_manual_run();
+	  SCH_Dispatch_Tasks();
+
+//	  fsm_automatic_run();
+//	  fsm_manual_run();
 
 //	  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin,
 //			  HAL_GPIO_ReadPin(Button1_GPIO_Port, Button1_Pin));
@@ -271,8 +274,9 @@ static void MX_GPIO_Init(void)
 //}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
-	getKeyInput();
+//	timerRun();
+//	getKeyInput();
+	SCH_Update();
 }
 
 /* USER CODE END 4 */
