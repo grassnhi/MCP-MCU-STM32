@@ -77,7 +77,9 @@ void ledBtn(){
 	if(check_button_pressed(0)){
 		HAL_GPIO_TogglePin(LBT_GPIO_Port, LBT_Pin);
 	}
-
+}
+void led5_2s5(){
+	HAL_GPIO_TogglePin(L5_GPIO_Port, L5_Pin);
 }
 /* USER CODE END 0 */
 
@@ -97,7 +99,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  SCH_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -116,6 +118,7 @@ int main(void)
 	SCH_Add_Task(led2_1s, 1000, 1000);
 	SCH_Add_Task(led3_1s5, 1000, 1500);
 	SCH_Add_Task(led4_2s, 1000, 2000);
+	SCH_Add_Task(led5_2s5, 1000, 2500);
 	SCH_Add_Task(led1S_3s, 3000, 0);
 	SCH_Add_Task(ledBtn, TIME_CYCLE, TIME_CYCLE);
   /* USER CODE END 2 */
@@ -224,13 +227,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, L1_Pin|L2_Pin|L3_Pin|L4_Pin
-                          |L1S_Pin|LBT_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, L5_Pin|L1_Pin|L2_Pin|L3_Pin
+                          |L4_Pin|L1S_Pin|LBT_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin L4_Pin
-                           L1S_Pin LBT_Pin */
-  GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin|L4_Pin
-                          |L1S_Pin|LBT_Pin;
+  /*Configure GPIO pins : L5_Pin L1_Pin L2_Pin L3_Pin
+                           L4_Pin L1S_Pin LBT_Pin */
+  GPIO_InitStruct.Pin = L5_Pin|L1_Pin|L2_Pin|L3_Pin
+                          |L4_Pin|L1S_Pin|LBT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

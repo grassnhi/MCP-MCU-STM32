@@ -10,9 +10,6 @@
 
 #include "scheduler.h"
 
-sTasks SCH_tasks_G[SCH_MAX_TASKS];
-uint8_t current_index_task = 0;
-
 sTaskList taskList;
 int32_t TaskID_arr[SCH_MAX_TASKS];
 uint32_t curID = 0;
@@ -30,7 +27,7 @@ void SCH_Init(void) {
     LIST_Init(&taskList);
 }
 
-uint32_t SCH_Add_Task ( void (*pFunction)(),
+unsigned char SCH_Add_Task( void (*pFunction)(),
 					uint32_t DELAY,
 					uint32_t PERIOD) {
 
@@ -70,7 +67,7 @@ uint32_t SCH_Add_Task ( void (*pFunction)(),
     return curID;
 }
 
-void SCH_Update_Task() {
+void SCH_Update() {
 	node* tmp = taskList.head;
     if(tmp != NULL && dispatch == 0) {
         if(tmp->task.Delay != 0){
@@ -101,7 +98,7 @@ void SCH_Dispatch_Tasks(void) {
     }
 }
 
-uint32_t SCH_Delete_Task(uint32_t taskID) {
+unsigned char SCH_Delete_Task(uint32_t taskID) {
 	if (TaskID_arr[taskID] == -1) {
         return -1;
     }
