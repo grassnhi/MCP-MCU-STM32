@@ -203,6 +203,21 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x8ed ./Core/Src/input_reading.o
  .debug_macro   0x0000000000000000       0x69 ./Core/Src/input_reading.o
  .debug_macro   0x0000000000000000       0x58 ./Core/Src/input_reading.o
+ .group         0x0000000000000000        0xc ./Core/Src/linkedList.o
+ .text          0x0000000000000000        0x0 ./Core/Src/linkedList.o
+ .data          0x0000000000000000        0x0 ./Core/Src/linkedList.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/linkedList.o
+ .debug_info    0x0000000000000000       0x21 ./Core/Src/linkedList.o
+ .debug_abbrev  0x0000000000000000       0x13 ./Core/Src/linkedList.o
+ .debug_aranges
+                0x0000000000000000       0x18 ./Core/Src/linkedList.o
+ .debug_macro   0x0000000000000000       0x1b ./Core/Src/linkedList.o
+ .debug_macro   0x0000000000000000      0xa9c ./Core/Src/linkedList.o
+ .debug_line    0x0000000000000000       0x55 ./Core/Src/linkedList.o
+ .debug_str     0x0000000000000000     0x2d7c ./Core/Src/linkedList.o
+ .comment       0x0000000000000000       0x54 ./Core/Src/linkedList.o
+ .ARM.attributes
+                0x0000000000000000       0x33 ./Core/Src/linkedList.o
  .group         0x0000000000000000        0xc ./Core/Src/main.o
  .group         0x0000000000000000        0xc ./Core/Src/main.o
  .group         0x0000000000000000        0xc ./Core/Src/main.o
@@ -2369,6 +2384,7 @@ LOAD e:/downloaded/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.
 LOAD e:/downloaded/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp/crt0.o
 LOAD ./Core/Src/input_processing.o
 LOAD ./Core/Src/input_reading.o
+LOAD ./Core/Src/linkedList.o
 LOAD ./Core/Src/main.o
 LOAD ./Core/Src/scheduler.o
 LOAD ./Core/Src/stm32f1xx_hal_msp.o

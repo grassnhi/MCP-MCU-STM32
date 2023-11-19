@@ -1,0 +1,3 @@
+list.c:12:15:LIST_Add_Task	32	static
+list.c:44:15:LIST_Delete_Task	24	static
+list.c:87:15:LIST_Delete_Head_Task	32	static

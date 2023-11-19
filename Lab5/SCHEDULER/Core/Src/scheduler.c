@@ -5,6 +5,9 @@
  *      Author: PC
  */
 
+#ifndef SRC_SCHEDULER_C_
+#define SRC_SCHEDULER_C_
+
 #include "scheduler.h"
 
 int TIME_CYCLE = 10;
@@ -77,3 +80,5 @@ uint8_t SCH_Delete_Task(uint32_t taskID) {
 	current_index_task--;
 	return taskID;
 }
+
+#endif /* SRC_SCHEDULER_C_ */

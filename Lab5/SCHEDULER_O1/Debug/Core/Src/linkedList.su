@@ -1,0 +1,4 @@
+linkedList.c:12:6:LIST_Init	16	static
+linkedList.c:18:10:LIST_Add_Task	32	static
+linkedList.c:50:10:LIST_Delete_Task	24	static
+linkedList.c:91:10:LIST_Delete_Head_Task	32	static

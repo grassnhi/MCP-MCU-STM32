@@ -1,5 +1,6 @@
 "./Core/Src/input_processing.o"
 "./Core/Src/input_reading.o"
+"./Core/Src/linkedList.o"
 "./Core/Src/main.o"
 "./Core/Src/scheduler.o"
 "./Core/Src/stm32f1xx_hal_msp.o"
