@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_ranges 00000978  00000000  00000000  0002d2d8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00017b92  00000000  00000000  0002dc50  2**0
+ 16 .debug_macro  00017b8c  00000000  00000000  0002dc50  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000c62e  00000000  00000000  000457e2  2**0
+ 17 .debug_line   0000c62e  00000000  00000000  000457dc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008583a  00000000  00000000  00051e10  2**0
+ 18 .debug_str    00085825  00000000  00000000  00051e0a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000d764a  2**0
+ 19 .comment      00000053  00000000  00000000  000d762f  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002aa8  00000000  00000000  000d76a0  2**2
+ 20 .debug_frame  00002aa8  00000000  00000000  000d7684  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3621,20 +3621,20 @@ __STATIC_FORCEINLINE void __disable_irq(void)
 	...
 
 08001d74 <SCH_Init>:
-#define	HEAD	0
+#include "scheduler.h"
 
 sTask SCH_tasks_G[SCH_MAX_TASKS];
-uint32_t Size = 0;
+uint32_t size = 0;
 
 void SCH_Init(void) {
  8001d74:	b480      	push	{r7}
  8001d76:	b083      	sub	sp, #12
  8001d78:	af00      	add	r7, sp, #0
-	for(uint32_t Index = 0; Index < SCH_MAX_TASKS; Index++) {
+	for(uint32_t index = 0; index < SCH_MAX_TASKS; index++) {
  8001d7a:	2300      	movs	r3, #0
  8001d7c:	607b      	str	r3, [r7, #4]
  8001d7e:	e029      	b.n	8001dd4 <SCH_Init+0x60>
-		SCH_tasks_G[Index].pTask = 0x0000;
+		SCH_tasks_G[index].pTask = 0x0000;
  8001d80:	4919      	ldr	r1, [pc, #100]	; (8001de8 <SCH_Init+0x74>)
  8001d82:	687a      	ldr	r2, [r7, #4]
  8001d84:	4613      	mov	r3, r2
@@ -3644,7 +3644,7 @@ void SCH_Init(void) {
  8001d8c:	440b      	add	r3, r1
  8001d8e:	2200      	movs	r2, #0
  8001d90:	601a      	str	r2, [r3, #0]
-		SCH_tasks_G[Index].Delay = 0;
+		SCH_tasks_G[index].Delay = 0;
  8001d92:	4915      	ldr	r1, [pc, #84]	; (8001de8 <SCH_Init+0x74>)
  8001d94:	687a      	ldr	r2, [r7, #4]
  8001d96:	4613      	mov	r3, r2
@@ -3655,7 +3655,7 @@ void SCH_Init(void) {
  8001da0:	3304      	adds	r3, #4
  8001da2:	2200      	movs	r2, #0
  8001da4:	601a      	str	r2, [r3, #0]
-		SCH_tasks_G[Index].Period = 0;
+		SCH_tasks_G[index].Period = 0;
  8001da6:	4910      	ldr	r1, [pc, #64]	; (8001de8 <SCH_Init+0x74>)
  8001da8:	687a      	ldr	r2, [r7, #4]
  8001daa:	4613      	mov	r3, r2
@@ -3666,7 +3666,7 @@ void SCH_Init(void) {
  8001db4:	3308      	adds	r3, #8
  8001db6:	2200      	movs	r2, #0
  8001db8:	601a      	str	r2, [r3, #0]
-		SCH_tasks_G[Index].RunMe = 0;
+		SCH_tasks_G[index].RunMe = 0;
  8001dba:	490b      	ldr	r1, [pc, #44]	; (8001de8 <SCH_Init+0x74>)
  8001dbc:	687a      	ldr	r2, [r7, #4]
  8001dbe:	4613      	mov	r3, r2
@@ -3677,7 +3677,7 @@ void SCH_Init(void) {
  8001dc8:	330c      	adds	r3, #12
  8001dca:	2200      	movs	r2, #0
  8001dcc:	701a      	strb	r2, [r3, #0]
-	for(uint32_t Index = 0; Index < SCH_MAX_TASKS; Index++) {
+	for(uint32_t index = 0; index < SCH_MAX_TASKS; index++) {
  8001dce:	687b      	ldr	r3, [r7, #4]
  8001dd0:	3301      	adds	r3, #1
  8001dd2:	607b      	str	r3, [r7, #4]
@@ -3704,7 +3704,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001df2:	60f8      	str	r0, [r7, #12]
  8001df4:	60b9      	str	r1, [r7, #8]
  8001df6:	607a      	str	r2, [r7, #4]
-	if(Size == SCH_MAX_TASKS - 1) return SCH_MAX_TASKS;
+	if(size == SCH_MAX_TASKS - 1) return SCH_MAX_TASKS;
  8001df8:	4b6e      	ldr	r3, [pc, #440]	; (8001fb4 <SCH_Add_Task+0x1c8>)
  8001dfa:	681b      	ldr	r3, [r3, #0]
  8001dfc:	2b27      	cmp	r3, #39	; 0x27
@@ -3715,7 +3715,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
 	uint8_t flag = 0;
  8001e04:	2300      	movs	r3, #0
  8001e06:	77fb      	strb	r3, [r7, #31]
-	uint32_t Index = 0;
+	uint32_t index = 0;
  8001e08:	2300      	movs	r3, #0
  8001e0a:	61bb      	str	r3, [r7, #24]
 	if(TIMER_CYCLE > 0) {
@@ -3727,11 +3727,11 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001e16:	60bb      	str	r3, [r7, #8]
 	}
 
-	for(Index = 0; Index < Size && flag == 0; Index++) {
+	for(index = 0; index < size && flag == 0; index++) {
  8001e18:	2300      	movs	r3, #0
  8001e1a:	61bb      	str	r3, [r7, #24]
  8001e1c:	e046      	b.n	8001eac <SCH_Add_Task+0xc0>
-		if(DELAY > SCH_tasks_G[Index].Delay) {
+		if(DELAY > SCH_tasks_G[index].Delay) {
  8001e1e:	4967      	ldr	r1, [pc, #412]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001e20:	69ba      	ldr	r2, [r7, #24]
  8001e22:	4613      	mov	r3, r2
@@ -3744,7 +3744,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001e30:	68ba      	ldr	r2, [r7, #8]
  8001e32:	429a      	cmp	r2, r3
  8001e34:	d90c      	bls.n	8001e50 <SCH_Add_Task+0x64>
-			DELAY -= SCH_tasks_G[Index].Delay;
+			DELAY -= SCH_tasks_G[index].Delay;
  8001e36:	4961      	ldr	r1, [pc, #388]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001e38:	69ba      	ldr	r2, [r7, #24]
  8001e3a:	4613      	mov	r3, r2
@@ -3763,7 +3763,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
 			flag = 1;
  8001e50:	2301      	movs	r3, #1
  8001e52:	77fb      	strb	r3, [r7, #31]
-			SCH_tasks_G[Index].Delay -= DELAY;
+			SCH_tasks_G[index].Delay -= DELAY;
  8001e54:	4959      	ldr	r1, [pc, #356]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001e56:	69ba      	ldr	r2, [r7, #24]
  8001e58:	4613      	mov	r3, r2
@@ -3784,7 +3784,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001e76:	4403      	add	r3, r0
  8001e78:	3304      	adds	r3, #4
  8001e7a:	6019      	str	r1, [r3, #0]
-			if(SCH_tasks_G[Index].Delay == 0) {
+			if(SCH_tasks_G[index].Delay == 0) {
  8001e7c:	494f      	ldr	r1, [pc, #316]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001e7e:	69ba      	ldr	r2, [r7, #24]
  8001e80:	4613      	mov	r3, r2
@@ -3796,7 +3796,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001e8c:	681b      	ldr	r3, [r3, #0]
  8001e8e:	2b00      	cmp	r3, #0
  8001e90:	d109      	bne.n	8001ea6 <SCH_Add_Task+0xba>
-				SCH_tasks_G[Index].RunMe = 1;
+				SCH_tasks_G[index].RunMe = 1;
  8001e92:	494a      	ldr	r1, [pc, #296]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001e94:	69ba      	ldr	r2, [r7, #24]
  8001e96:	4613      	mov	r3, r2
@@ -3807,7 +3807,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001ea0:	330c      	adds	r3, #12
  8001ea2:	2201      	movs	r2, #1
  8001ea4:	701a      	strb	r2, [r3, #0]
-	for(Index = 0; Index < Size && flag == 0; Index++) {
+	for(index = 0; index < size && flag == 0; index++) {
  8001ea6:	69bb      	ldr	r3, [r7, #24]
  8001ea8:	3301      	adds	r3, #1
  8001eaa:	61bb      	str	r3, [r7, #24]
@@ -3827,16 +3827,16 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001ebc:	7ffb      	ldrb	r3, [r7, #31]
  8001ebe:	2b01      	cmp	r3, #1
  8001ec0:	d135      	bne.n	8001f2e <SCH_Add_Task+0x142>
-		Index -= 1;
+		index -= 1;
  8001ec2:	69bb      	ldr	r3, [r7, #24]
  8001ec4:	3b01      	subs	r3, #1
  8001ec6:	61bb      	str	r3, [r7, #24]
-		for(uint32_t Temp = Size; Temp > Index; Temp--) {
+		for(uint32_t temp = size; temp > index; temp--) {
  8001ec8:	4b3a      	ldr	r3, [pc, #232]	; (8001fb4 <SCH_Add_Task+0x1c8>)
  8001eca:	681b      	ldr	r3, [r3, #0]
  8001ecc:	617b      	str	r3, [r7, #20]
  8001ece:	e02a      	b.n	8001f26 <SCH_Add_Task+0x13a>
-			SCH_tasks_G[Temp] = SCH_tasks_G[Temp - 1];
+			SCH_tasks_G[temp] = SCH_tasks_G[temp - 1];
  8001ed0:	697b      	ldr	r3, [r7, #20]
  8001ed2:	1e5a      	subs	r2, r3, #1
  8001ed4:	4839      	ldr	r0, [pc, #228]	; (8001fbc <SCH_Add_Task+0x1d0>)
@@ -3858,7 +3858,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001ef4:	c40f      	stmia	r4!, {r0, r1, r2, r3}
  8001ef6:	682b      	ldr	r3, [r5, #0]
  8001ef8:	6023      	str	r3, [r4, #0]
-			SCH_tasks_G[Temp].TaskID += 1;
+			SCH_tasks_G[temp].TaskID += 1;
  8001efa:	4930      	ldr	r1, [pc, #192]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001efc:	697a      	ldr	r2, [r7, #20]
  8001efe:	4613      	mov	r3, r2
@@ -3878,7 +3878,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f1a:	4403      	add	r3, r0
  8001f1c:	3310      	adds	r3, #16
  8001f1e:	6019      	str	r1, [r3, #0]
-		for(uint32_t Temp = Size; Temp > Index; Temp--) {
+		for(uint32_t temp = size; temp > index; temp--) {
  8001f20:	697b      	ldr	r3, [r7, #20]
  8001f22:	3b01      	subs	r3, #1
  8001f24:	617b      	str	r3, [r7, #20]
@@ -3888,7 +3888,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f2c:	d8d0      	bhi.n	8001ed0 <SCH_Add_Task+0xe4>
 		}
 	}
-	SCH_tasks_G[Index].pTask = pFunction;
+	SCH_tasks_G[index].pTask = pFunction;
  8001f2e:	4923      	ldr	r1, [pc, #140]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001f30:	69ba      	ldr	r2, [r7, #24]
  8001f32:	4613      	mov	r3, r2
@@ -3898,7 +3898,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f3a:	440b      	add	r3, r1
  8001f3c:	68fa      	ldr	r2, [r7, #12]
  8001f3e:	601a      	str	r2, [r3, #0]
-	SCH_tasks_G[Index].Delay = DELAY;
+	SCH_tasks_G[index].Delay = DELAY;
  8001f40:	491e      	ldr	r1, [pc, #120]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001f42:	69ba      	ldr	r2, [r7, #24]
  8001f44:	4613      	mov	r3, r2
@@ -3909,7 +3909,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f4e:	3304      	adds	r3, #4
  8001f50:	68ba      	ldr	r2, [r7, #8]
  8001f52:	601a      	str	r2, [r3, #0]
-	SCH_tasks_G[Index].Period = PERIOD;
+	SCH_tasks_G[index].Period = PERIOD;
  8001f54:	4919      	ldr	r1, [pc, #100]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001f56:	69ba      	ldr	r2, [r7, #24]
  8001f58:	4613      	mov	r3, r2
@@ -3920,7 +3920,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f62:	3308      	adds	r3, #8
  8001f64:	687a      	ldr	r2, [r7, #4]
  8001f66:	601a      	str	r2, [r3, #0]
-	SCH_tasks_G[Index].RunMe = (DELAY == 0) ? 1 : 0;
+	SCH_tasks_G[index].RunMe = (DELAY == 0) ? 1 : 0;
  8001f68:	68bb      	ldr	r3, [r7, #8]
  8001f6a:	2b00      	cmp	r3, #0
  8001f6c:	bf0c      	ite	eq
@@ -3938,7 +3938,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f84:	330c      	adds	r3, #12
  8001f86:	4602      	mov	r2, r0
  8001f88:	701a      	strb	r2, [r3, #0]
-	SCH_tasks_G[Index].TaskID = Index;
+	SCH_tasks_G[index].TaskID = index;
  8001f8a:	490c      	ldr	r1, [pc, #48]	; (8001fbc <SCH_Add_Task+0x1d0>)
  8001f8c:	69ba      	ldr	r2, [r7, #24]
  8001f8e:	4613      	mov	r3, r2
@@ -3950,14 +3950,14 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
  8001f9a:	69ba      	ldr	r2, [r7, #24]
  8001f9c:	601a      	str	r2, [r3, #0]
 
-	Size += 1;
+	size += 1;
  8001f9e:	4b05      	ldr	r3, [pc, #20]	; (8001fb4 <SCH_Add_Task+0x1c8>)
  8001fa0:	681b      	ldr	r3, [r3, #0]
  8001fa2:	3301      	adds	r3, #1
  8001fa4:	4a03      	ldr	r2, [pc, #12]	; (8001fb4 <SCH_Add_Task+0x1c8>)
  8001fa6:	6013      	str	r3, [r2, #0]
 
-	return Index;
+	return index;
  8001fa8:	69bb      	ldr	r3, [r7, #24]
 }
  8001faa:	4618      	mov	r0, r3
@@ -3971,12 +3971,12 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
 
 08001fc0 <SCH_Delete_Task>:
 
-void SCH_Delete_Task(uint32_t TASK_INDEX) {
+void SCH_Delete_Task(uint32_t taskID) {
  8001fc0:	b4b0      	push	{r4, r5, r7}
  8001fc2:	b085      	sub	sp, #20
  8001fc4:	af00      	add	r7, sp, #0
  8001fc6:	6078      	str	r0, [r7, #4]
-	if(SCH_tasks_G[TASK_INDEX].pTask == 0) return;
+	if(SCH_tasks_G[taskID].pTask == 0) return;
  8001fc8:	4933      	ldr	r1, [pc, #204]	; (8002098 <SCH_Delete_Task+0xd8>)
  8001fca:	687a      	ldr	r2, [r7, #4]
  8001fcc:	4613      	mov	r3, r2
@@ -3988,7 +3988,7 @@ void SCH_Delete_Task(uint32_t TASK_INDEX) {
  8001fd8:	2b00      	cmp	r3, #0
  8001fda:	d057      	beq.n	800208c <SCH_Delete_Task+0xcc>
 
-	SCH_tasks_G[TASK_INDEX + 1].Delay += SCH_tasks_G[TASK_INDEX].Delay;
+	SCH_tasks_G[taskID + 1].Delay += SCH_tasks_G[taskID].Delay;
  8001fdc:	687b      	ldr	r3, [r7, #4]
  8001fde:	1c5a      	adds	r2, r3, #1
  8001fe0:	492d      	ldr	r1, [pc, #180]	; (8002098 <SCH_Delete_Task+0xd8>)
@@ -4020,11 +4020,11 @@ void SCH_Delete_Task(uint32_t TASK_INDEX) {
  8002014:	3304      	adds	r3, #4
  8002016:	6019      	str	r1, [r3, #0]
 
-	for(uint32_t Temp = TASK_INDEX; Temp < Size - 1; Temp++) {
+	for(uint32_t temp = taskID; temp < size - 1; temp++) {
  8002018:	687b      	ldr	r3, [r7, #4]
  800201a:	60fb      	str	r3, [r7, #12]
  800201c:	e02a      	b.n	8002074 <SCH_Delete_Task+0xb4>
-		SCH_tasks_G[Temp] = SCH_tasks_G[Temp + 1];
+		SCH_tasks_G[temp] = SCH_tasks_G[temp + 1];
  800201e:	68fb      	ldr	r3, [r7, #12]
  8002020:	1c5a      	adds	r2, r3, #1
  8002022:	481d      	ldr	r0, [pc, #116]	; (8002098 <SCH_Delete_Task+0xd8>)
@@ -4046,7 +4046,7 @@ void SCH_Delete_Task(uint32_t TASK_INDEX) {
  8002042:	c40f      	stmia	r4!, {r0, r1, r2, r3}
  8002044:	682b      	ldr	r3, [r5, #0]
  8002046:	6023      	str	r3, [r4, #0]
-		SCH_tasks_G[Temp].TaskID -= 1;
+		SCH_tasks_G[temp].TaskID -= 1;
  8002048:	4913      	ldr	r1, [pc, #76]	; (8002098 <SCH_Delete_Task+0xd8>)
  800204a:	68fa      	ldr	r2, [r7, #12]
  800204c:	4613      	mov	r3, r2
@@ -4066,7 +4066,7 @@ void SCH_Delete_Task(uint32_t TASK_INDEX) {
  8002068:	4403      	add	r3, r0
  800206a:	3310      	adds	r3, #16
  800206c:	6019      	str	r1, [r3, #0]
-	for(uint32_t Temp = TASK_INDEX; Temp < Size - 1; Temp++) {
+	for(uint32_t temp = taskID; temp < size - 1; temp++) {
  800206e:	68fb      	ldr	r3, [r7, #12]
  8002070:	3301      	adds	r3, #1
  8002072:	60fb      	str	r3, [r7, #12]
@@ -4078,14 +4078,14 @@ void SCH_Delete_Task(uint32_t TASK_INDEX) {
  800207e:	d3ce      	bcc.n	800201e <SCH_Delete_Task+0x5e>
 	}
 
-	Size -= 1;
+	size -= 1;
  8002080:	4b06      	ldr	r3, [pc, #24]	; (800209c <SCH_Delete_Task+0xdc>)
  8002082:	681b      	ldr	r3, [r3, #0]
  8002084:	3b01      	subs	r3, #1
  8002086:	4a05      	ldr	r2, [pc, #20]	; (800209c <SCH_Delete_Task+0xdc>)
  8002088:	6013      	str	r3, [r2, #0]
  800208a:	e000      	b.n	800208e <SCH_Delete_Task+0xce>
-	if(SCH_tasks_G[TASK_INDEX].pTask == 0) return;
+	if(SCH_tasks_G[taskID].pTask == 0) return;
  800208c:	bf00      	nop
 }
  800208e:	3714      	adds	r7, #20
@@ -4102,17 +4102,17 @@ void SCH_Dispatch_Tasks(void) {
  80020a0:	b5b0      	push	{r4, r5, r7, lr}
  80020a2:	b086      	sub	sp, #24
  80020a4:	af00      	add	r7, sp, #0
-	if(SCH_tasks_G[HEAD].RunMe == 1) {
+	if(SCH_tasks_G[0].RunMe == 1) {
  80020a6:	4b0f      	ldr	r3, [pc, #60]	; (80020e4 <SCH_Dispatch_Tasks+0x44>)
  80020a8:	7b1b      	ldrb	r3, [r3, #12]
  80020aa:	2b01      	cmp	r3, #1
  80020ac:	d115      	bne.n	80020da <SCH_Dispatch_Tasks+0x3a>
-		(*SCH_tasks_G[HEAD].pTask)();
+		(*SCH_tasks_G[0].pTask)();
  80020ae:	4b0d      	ldr	r3, [pc, #52]	; (80020e4 <SCH_Dispatch_Tasks+0x44>)
  80020b0:	681b      	ldr	r3, [r3, #0]
  80020b2:	4798      	blx	r3
 
-		sTask temp = SCH_tasks_G[HEAD];
+		sTask temp = SCH_tasks_G[0];
  80020b4:	4b0b      	ldr	r3, [pc, #44]	; (80020e4 <SCH_Dispatch_Tasks+0x44>)
  80020b6:	1d3c      	adds	r4, r7, #4
  80020b8:	461d      	mov	r5, r3
@@ -4121,7 +4121,7 @@ void SCH_Dispatch_Tasks(void) {
  80020be:	682b      	ldr	r3, [r5, #0]
  80020c0:	6023      	str	r3, [r4, #0]
 
-		SCH_Delete_Task(HEAD);
+		SCH_Delete_Task(0);
  80020c2:	2000      	movs	r0, #0
  80020c4:	f7ff ff7c 	bl	8001fc0 <SCH_Delete_Task>
 
@@ -4150,7 +4150,7 @@ void SCH_Dispatch_Tasks(void) {
 void SCH_Update(void) {
  80020e8:	b480      	push	{r7}
  80020ea:	af00      	add	r7, sp, #0
-	if(SCH_tasks_G[HEAD].Delay > 0) SCH_tasks_G[HEAD].Delay--;
+	if(SCH_tasks_G[0].Delay > 0) SCH_tasks_G[0].Delay--;
  80020ec:	4b09      	ldr	r3, [pc, #36]	; (8002114 <SCH_Update+0x2c>)
  80020ee:	685b      	ldr	r3, [r3, #4]
  80020f0:	2b00      	cmp	r3, #0
@@ -4161,12 +4161,12 @@ void SCH_Update(void) {
  80020fa:	4a06      	ldr	r2, [pc, #24]	; (8002114 <SCH_Update+0x2c>)
  80020fc:	6053      	str	r3, [r2, #4]
 
-	if(SCH_tasks_G[HEAD].Delay == 0) {
+	if(SCH_tasks_G[0].Delay == 0) {
  80020fe:	4b05      	ldr	r3, [pc, #20]	; (8002114 <SCH_Update+0x2c>)
  8002100:	685b      	ldr	r3, [r3, #4]
  8002102:	2b00      	cmp	r3, #0
  8002104:	d102      	bne.n	800210c <SCH_Update+0x24>
-		SCH_tasks_G[HEAD].RunMe = 1;
+		SCH_tasks_G[0].RunMe = 1;
  8002106:	4b03      	ldr	r3, [pc, #12]	; (8002114 <SCH_Update+0x2c>)
  8002108:	2201      	movs	r2, #1
  800210a:	731a      	strb	r2, [r3, #12]
