@@ -10,101 +10,93 @@
 
 #include "scheduler.h"
 
-sTaskList taskList;
-int32_t TaskID_arr[SCH_MAX_TASKS];
-uint32_t curID = 0;
-uint8_t dispatch = 0;
+#define	HEAD	0
+
+sTask SCH_tasks_G[SCH_MAX_TASKS];
+uint32_t Size = 0;
 
 void SCH_Init(void) {
-	sTasks* tmp = (sTasks*)taskList.head;
-    while (tmp != NULL)
-    {
-        SCH_Delete_Task(tmp->TaskID);
-    }
-    for (int32_t i=0; i<SCH_MAX_TASKS; i++) {
-        TaskID_arr[i] = -1;
-    }
-    LIST_Init(&taskList);
+	for(uint32_t Index = 0; Index < SCH_MAX_TASKS; Index++) {
+		SCH_tasks_G[Index].pTask = 0x0000;
+		SCH_tasks_G[Index].Delay = 0;
+		SCH_tasks_G[Index].Period = 0;
+		SCH_tasks_G[Index].RunMe = 0;
+	}
 }
 
-unsigned char SCH_Add_Task( void (*pFunction)(),
-					uint32_t DELAY,
-					uint32_t PERIOD) {
+uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD) {
+	if(Size == SCH_MAX_TASKS - 1) return SCH_MAX_TASKS;
 
-	uint32_t id = 0;
-
-	node *cur = taskList.head;
-	node *prev = NULL;
-
-	while (TaskID_arr[curID] != -1 && id < SCH_MAX_TASKS)
-    {
-        curID = (curID+1)%SCH_MAX_TASKS;
-        id++;
-    }
-
-	if(id == SCH_MAX_TASKS){
-		return -1;
+	uint8_t flag = 0;
+	uint32_t Index = 0;
+	if(SYSTEM_DELAY > 0) {
+		DELAY /= SYSTEM_DELAY;
 	}
 
-	if (taskList.size == 0) {
-    	LIST_Add_Task(&taskList, pFunction, DELAY, PERIOD, curID, prev, cur);
-    } else {
-    	uint32_t sumDelay = 0;
-		uint32_t newDelay = 0;
+	for(; Index < Size && flag == 0; Index++) {
+		if(DELAY > SCH_tasks_G[Index].Delay) {
+			DELAY -= SCH_tasks_G[Index].Delay;
+		}
+		else {
+			flag = 1;
+			SCH_tasks_G[Index].Delay -= DELAY;
+			if(SCH_tasks_G[Index].Delay == 0) {
+				SCH_tasks_G[Index].RunMe = 1;
+			}
+		}
+	}
 
-    	while (DELAY >= sumDelay + cur->task.Delay && cur != NULL) {
-    		sumDelay += cur->task.Delay;
-    		prev = cur;
-    		cur = (node *)cur->next;
-    	}
-    	newDelay = DELAY - sumDelay;
-    	if (cur != NULL) {
-    		cur->task.Delay -= newDelay;
-    	}
-    	LIST_Add_Task(&taskList, pFunction, newDelay, PERIOD, curID, prev, cur);
-    }
-	TaskID_arr[curID] = curID;
-    return curID;
+	if(flag == 1) {
+		Index -= 1;
+		for(uint32_t Temp = Size; Temp > Index; Temp--) {
+			SCH_tasks_G[Temp] = SCH_tasks_G[Temp - 1];
+			SCH_tasks_G[Temp].TaskID += 1;
+		}
+	}
+	SCH_tasks_G[Index].pTask = pFunction;
+	SCH_tasks_G[Index].Delay = DELAY;
+	SCH_tasks_G[Index].Period = PERIOD;
+	SCH_tasks_G[Index].RunMe = (DELAY == 0) ? 1 : 0;
+	SCH_tasks_G[Index].TaskID = Index;
+
+	Size += 1;
+
+	return Index;
 }
 
-void SCH_Update() {
-	node* tmp = taskList.head;
-    if(tmp != NULL && dispatch == 0) {
-        if(tmp->task.Delay != 0){
-            tmp->task.Delay--;
-        }else{
-        	dispatch = 1;
-        }
-    }
+void SCH_Delete_Task(uint32_t TASK_INDEX) {
+	if(SCH_tasks_G[TASK_INDEX].pTask == 0) return;
+
+	SCH_tasks_G[TASK_INDEX + 1].Delay += SCH_tasks_G[TASK_INDEX].Delay;
+
+	for(uint32_t Temp = TASK_INDEX; Temp < Size - 1; Temp++) {
+		SCH_tasks_G[Temp] = SCH_tasks_G[Temp + 1];
+		SCH_tasks_G[Temp].TaskID -= 1;
+	}
+
+	Size -= 1;
 }
 
 void SCH_Dispatch_Tasks(void) {
-	node* tmp = taskList.head;
-    if (tmp->task.Delay == 0 && tmp != NULL) {
-        (*tmp->task.pTask)();
-        if (tmp->task.Period == 0) {
-            SCH_Delete_Task(tmp->task.TaskID);
-            return;
-        } else {
-            void (*pTask) (void) = tmp->task.pTask;
-//            uint32_t DELAY = tmp->task.Delay;
-            uint32_t PERIOD = tmp->task.Period;
-//            uint32_t TaskID = tmp->task.TaskID;
-//            uint8_t RunMe = tmp->task.RunMe;
-            SCH_Delete_Task(tmp->task.TaskID);
-            SCH_Add_Task(pTask, PERIOD, PERIOD);
-        }
-        dispatch = 0;
-    }
+	if(SCH_tasks_G[HEAD].RunMe == 1) {
+		(*SCH_tasks_G[HEAD].pTask)();
+
+		sTask temp = SCH_tasks_G[HEAD];
+
+		SCH_Delete_Task(HEAD);
+
+		if(temp.Period > 0) {
+			SCH_Add_Task(temp.pTask, temp.Period, temp.Period);
+		}
+	}
 }
 
-unsigned char SCH_Delete_Task(uint32_t taskID) {
-	if (TaskID_arr[taskID] == -1) {
-        return -1;
-    }
-    LIST_Delete_Task(&taskList, taskID);
-    TaskID_arr[taskID] = -1;
-    return taskID;
+void SCH_Update(void) {
+	if(SCH_tasks_G[HEAD].Delay > 0) SCH_tasks_G[HEAD].Delay--;
+
+	if(SCH_tasks_G[HEAD].Delay == 0) {
+		SCH_tasks_G[HEAD].RunMe = 1;
+	}
 }
 
 #endif /* SRC_SCHEDULER_C_ */

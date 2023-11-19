@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+#include "uart.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "scheduler.h"
@@ -44,6 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim2;
 
+UART_HandleTypeDef huart2;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -52,12 +55,20 @@ TIM_HandleTypeDef htim2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
+	if(huart->Instance == USART2){
+		HAL_UART_Transmit(&huart2, &temp, 1, 50);
+		HAL_UART_Receive_IT(&huart2, &temp, 1);
+	}
+}
+
 void led1_0s5(){
 	HAL_GPIO_TogglePin(L1_GPIO_Port, L1_Pin);
 }
@@ -112,15 +123,17 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart2, &temp, 1);
 	HAL_TIM_Base_Start_IT(&htim2);
-	SCH_Add_Task(led1_0s5, 1000, 500);
-	SCH_Add_Task(led2_1s, 1000, 1000);
-	SCH_Add_Task(led3_1s5, 1000, 1500);
-	SCH_Add_Task(led4_2s, 1000, 2000);
-	SCH_Add_Task(led5_2s5, 1000, 2500);
-	SCH_Add_Task(led1S_3s, 3000, 0);
-	SCH_Add_Task(ledBtn, TIME_CYCLE, TIME_CYCLE);
+	SCH_Add_Task(led1_0s5, 10, 50);
+	SCH_Add_Task(led2_1s, 10, 100);
+	SCH_Add_Task(led3_1s5, 10, 150);
+	SCH_Add_Task(led4_2s, 10, 200);
+	SCH_Add_Task(led5_2s5, 10, 250);
+	SCH_Add_Task(led1S_3s, 30, 0);
+	SCH_Add_Task(ledBtn, 1, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -211,6 +224,39 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 9600;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
 
 }
 

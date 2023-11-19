@@ -24,6 +24,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "global.h"
+#include "scheduler.h"
 #include "fsm_manual.h"
 #include "input_reading.h"
 #include "software_timer.h"
@@ -80,7 +81,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  SCH_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -104,8 +105,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	fsm_automatic_run();
-	fsm_manual_run();
+//	fsm_automatic_run();
+//	fsm_manual_run();
+	  SCH_Dispatch_Tasks()
   }
   /* USER CODE END 3 */
 }
@@ -249,8 +251,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim)
 {
-	timerRun();
-	button_reading();
+//	timerRun();
+//	button_reading();
+	SCH_Update();
 }
 /* USER CODE END 4 */
 

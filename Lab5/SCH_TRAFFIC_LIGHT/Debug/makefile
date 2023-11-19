@@ -35,37 +35,37 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := TRAFFIC_LIGHT
+BUILD_ARTIFACT_NAME := SCH_TRAFFIC_LIGHT
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-TRAFFIC_LIGHT.elf \
+SCH_TRAFFIC_LIGHT.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-TRAFFIC_LIGHT.list \
+SCH_TRAFFIC_LIGHT.list \
 
 OBJCOPY_HEX += \
-TRAFFIC_LIGHT.hex \
+SCH_TRAFFIC_LIGHT.hex \
 
 OBJCOPY_BIN += \
-TRAFFIC_LIGHT.bin \
+SCH_TRAFFIC_LIGHT.bin \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: TRAFFIC_LIGHT.elf secondary-outputs
+main-build: SCH_TRAFFIC_LIGHT.elf secondary-outputs
 
 # Tool invocations
-TRAFFIC_LIGHT.elf: $(OBJS) $(USER_OBJS) E:\Coding\MPU-MCU-STM32\Lab3\TRAFFIC_LIGHT\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "TRAFFIC_LIGHT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Coding\MPU-MCU-STM32\Lab3\TRAFFIC_LIGHT\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TRAFFIC_LIGHT.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+SCH_TRAFFIC_LIGHT.elf: $(OBJS) $(USER_OBJS) E:\Coding\MPU-MCU-STM32\Lab5\SCH_TRAFFIC_LIGHT\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "SCH_TRAFFIC_LIGHT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Coding\MPU-MCU-STM32\Lab5\SCH_TRAFFIC_LIGHT\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SCH_TRAFFIC_LIGHT.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -74,24 +74,24 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-TRAFFIC_LIGHT.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "TRAFFIC_LIGHT.list"
+SCH_TRAFFIC_LIGHT.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "SCH_TRAFFIC_LIGHT.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-TRAFFIC_LIGHT.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "TRAFFIC_LIGHT.hex"
+SCH_TRAFFIC_LIGHT.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "SCH_TRAFFIC_LIGHT.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-TRAFFIC_LIGHT.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "TRAFFIC_LIGHT.bin"
+SCH_TRAFFIC_LIGHT.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "SCH_TRAFFIC_LIGHT.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJCOPY_HEX)$(SIZE_OUTPUT)$(OBJDUMP_LIST)$(EXECUTABLES)$(OBJS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(OBJCOPY_BIN) TRAFFIC_LIGHT.elf
+	-$(RM) $(OBJCOPY_HEX)$(SIZE_OUTPUT)$(OBJDUMP_LIST)$(EXECUTABLES)$(OBJS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(OBJCOPY_BIN) SCH_TRAFFIC_LIGHT.elf
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
