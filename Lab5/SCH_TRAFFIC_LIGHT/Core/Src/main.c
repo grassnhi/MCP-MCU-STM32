@@ -96,6 +96,10 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
+  	SCH_Add_Task(&timerRun, 0, 10);
+    SCH_Add_Task(&button_reading, 10, 10);
+    SCH_Add_Task(&fsm_automatic_run, 10, 10);
+    SCH_Add_Task(&fsm_manual_run, 10, 10);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -107,7 +111,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 //	fsm_automatic_run();
 //	fsm_manual_run();
-	  SCH_Dispatch_Tasks()
+	  SCH_Dispatch_Tasks();
   }
   /* USER CODE END 3 */
 }

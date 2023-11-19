@@ -23,7 +23,7 @@ uint32_t SCH_Add_Task(void (* pFunction)(void), uint32_t DELAY, uint32_t PERIOD)
 		DELAY /= TIMER_CYCLE;
 	}
 
-	for(; Index < Size && flag == 0; Index++) {
+	for(Index = 0; Index < Size && flag == 0; Index++) {
 		if(DELAY > SCH_tasks_G[Index].Delay) {
 			DELAY -= SCH_tasks_G[Index].Delay;
 		}
